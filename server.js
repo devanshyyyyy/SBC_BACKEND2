@@ -9,7 +9,7 @@ const PORT = 7001;
 
 
 //routes
-app.use("/api/",authRoutes);
+app.use("/api",authRoutes);
 
 
 app.listen(()=>console.log('Server Running on Port',PORT))
