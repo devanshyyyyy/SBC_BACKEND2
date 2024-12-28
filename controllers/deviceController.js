@@ -11,7 +11,7 @@ const addnewEsp_Device = async (req,res) => {
 	
 const existingDevice = await Esp_Devices.find({SerialNumber:serialNumber,Device_ID:deviceId,IP_Address:ipAddress,MAC:MacAddress,Connected_PIDs:connectedPIDs});
     	if(existingDevice){
-		return res.status(404.)json({
+		return res.status(404.).json({
 			message:"Device already Exist"	
 		})
     	}
