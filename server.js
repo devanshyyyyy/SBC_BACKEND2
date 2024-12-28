@@ -5,7 +5,7 @@ const authRoutes = require("./routes/authRoutes")
 
 
 const app = express();
-const PORT = 7001;
+const PORT = 7000;
 
 
 //routes
