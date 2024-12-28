@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {addnewEsp_Device ,deleteEsp_Device ,get_Esp_Devices } = require('../controllers/deviceController')
+const { addnewEsp_Device ,deleteEsp_Device ,get_Esp_Devices } = require('../controllers/deviceController')
 
 
 router.post("/add_new_Esp_Device",addnewEsp_Device);
