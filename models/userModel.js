@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
         required: true,
     },
     Access:{
-        type: boolean
+        type: Boolean
     },
     dateOfCreation: {
         type: Date,
