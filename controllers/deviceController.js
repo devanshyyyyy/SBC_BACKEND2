@@ -125,8 +125,8 @@ const getDeviceById = async (req, res) => {
     const { deviceId } = req.params; // Get deviceId from URL parameters
 
     try {
-        // Find the device using the deviceId
-        const device = await Esp_Devices.findOne({ Device_ID: deviceId });
+        // Find the device using the deviceId and exclude createdAt, updatedAt, and __v
+        const device = await Esp_Devices.findOne({ Device_ID: deviceId }).select('-createdAt -updatedAt -__v');
 
         // If no device is found, return 404
         if (!device) {
@@ -144,6 +144,11 @@ const getDeviceById = async (req, res) => {
     } catch (error) {
         console.error("Error fetching device:", error.message);
 
+        // Removing unwanted fields from the response
+        device._doc.createdAt = undefined;
+        device._doc.updatedAt = undefined;
+        device._doc.__v = undefined;
+
         return res.status(500).json({
             success: false,
             message: "An error occurred while fetching the device",
@@ -151,5 +156,6 @@ const getDeviceById = async (req, res) => {
         });
     }
 };
+
 
 module.exports = { addnewEsp_Device, deleteEsp_Device, get_Esp_Devices, getDeviceById };
