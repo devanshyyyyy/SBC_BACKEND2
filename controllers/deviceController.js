@@ -2,10 +2,10 @@ const Esp_Devices = require("../models/deviceModel");
 
 // Add New ESP Device
 const addnewEsp_Device = async (req, res) => {
-    const { serialNumber, deviceId, ipAddress, MacAddress, connectedPIDs } = req.body;
+    const { serialNumber, deviceId, deviceName, ipAddress, MacAddress, connectedPIDs } = req.body;
 
     // Validate required fields
-    if (!serialNumber || !deviceId || !ipAddress || !MacAddress || !connectedPIDs) {
+    if (!serialNumber || !deviceId || !deviceName || !ipAddress || !MacAddress || !connectedPIDs) {
         return res.status(400).json({
             success: false,
             message: "All fields are required",
@@ -15,8 +15,9 @@ const addnewEsp_Device = async (req, res) => {
     try {
         // Check if the device already exists
         const existingDevice = await Esp_Devices.findOne({
-            SerialNumber: serialNumber,
+            Serial_Number: serialNumber,
             Device_ID: deviceId,
+            Device_Name: deviceName,
             IP_Address: ipAddress,
             MAC: MacAddress,
             Connected_PIDs: connectedPIDs,
@@ -31,8 +32,9 @@ const addnewEsp_Device = async (req, res) => {
 
         // Create a new device
         const newEspDevice = await Esp_Devices.create({
-            SerialNumber: serialNumber,
+            Serial_Number: serialNumber,
             Device_ID: deviceId,
+            Device_Name: deviceName,
             IP_Address: ipAddress,
             MAC: MacAddress,
             Connected_PIDs: connectedPIDs,
@@ -118,5 +120,36 @@ const get_Esp_Devices = async (req, res) => {
     }
 };
 
+// Get device by deviceId
+const getDeviceById = async (req, res) => {
+    const { deviceId } = req.params; // Get deviceId from URL parameters
 
-module.exports = {addnewEsp_Device, deleteEsp_Device, get_Esp_Devices};
+    try {
+        // Find the device using the deviceId
+        const device = await Esp_Devices.findOne({ Device_ID: deviceId });
+
+        // If no device is found, return 404
+        if (!device) {
+            return res.status(404).json({
+                success: false,
+                message: "Device not found",
+            });
+        }
+
+        // If device is found, return the device data
+        return res.status(200).json({
+            success: true,
+            data: device,
+        });
+    } catch (error) {
+        console.error("Error fetching device:", error.message);
+
+        return res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching the device",
+            error: error.message,
+        });
+    }
+};
+
+module.exports = { addnewEsp_Device, deleteEsp_Device, get_Esp_Devices, getDeviceById };
