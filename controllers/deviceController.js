@@ -55,20 +55,12 @@ const addnewEsp_Device = async (req, res) => {
     }
 };
 
-// Delete ESP Device
+// Delete ESP Device by deviceId
 const deleteEsp_Device = async (req, res) => {
-    const { deviceId } = req.body;
-
-    // Validate device ID
-    if (!deviceId) {
-        return res.status(400).json({
-            success: false,
-            message: "Device ID is required",
-        });
-    }
+    const { deviceId } = req.params; // Get deviceId from URL parameters
 
     try {
-        // Find and delete the device
+        // Find and delete the device using deviceId
         const deleteResult = await Esp_Devices.deleteOne({ Device_ID: deviceId });
 
         if (deleteResult.deletedCount === 0) {
@@ -91,6 +83,7 @@ const deleteEsp_Device = async (req, res) => {
         });
     }
 };
+
 
 // Get All Esp_Device
 const get_Esp_Devices = async (req, res) => {
