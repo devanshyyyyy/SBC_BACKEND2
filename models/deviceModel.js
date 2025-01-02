@@ -9,6 +9,10 @@ const DeviceSchema = new mongoose.Schema({
         type : String,
         required: true,
     },
+    Device_Name: {
+        type : String,
+        required: true,
+    },
     IP_Address: {
         type : String,
         required: true,
